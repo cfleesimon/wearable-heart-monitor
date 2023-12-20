@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IP WEB APP</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-database.js"></script>
+
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyCJ6uFeTL091Tbq-27nOI_-sAKx7ARhTWM",
+      authDomain: "uwe-ip-hms-app.firebaseapp.com",
+      databaseURL: "https://uwe-ip-hms-app-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "uwe-ip-hms-app",
+      storageBucket: "uwe-ip-hms-app.appspot.com",
+      messagingSenderId: "380646194056",
+      appId: "1:380646194056:web:5bd34fd728b1cd8b30983d"
+    };
+
+    // Initialize firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Make auth and database references
+    const auth = firebase.auth();
+    const db = firebase.database();
+
+  </script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+<body class="min-vh-100 d-flex flex-column justify-content-between">
+
+<!--NAVBAR-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container d-flex justify-content-between">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">
+        <img src="ecg.svg" alt="" width="50" height="40" class="d-inline-block align-top">
+        <strong class="align-middle"> Vital Signs & Cardiovascular Health Surveillance System </strong>
+      </a>
+    </div>
+
+    <div class="navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="#" id="login-link">
+            <button id="loginBtn" class="btn btn btn-primary" data-bs-toggle="modal" data-bs-target="#login-modal">Login</button>
+          </a>
+        </li>
+        <div class="col" id="userInfo" >
+          <p><span id="time-status" style="float: right" ></span>
+          </p>
+          <p>
+            <b>user:</b><span id="user-details"></span>
+          </p>
+        </div>
+        <li class="nav-item">
+          <a class="nav-link" href="#" id="logout-link" style="display: none;">
+            <button id="logoutBtn" class="btn btn btn-danger navbar-btn" data-bs-toggle="modal" data-bs-target="#logout-modal">Logout</button>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- LOGIN MODAL -->
+<div class="modal fade" id="login-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="col-sm modal-title text-center">Login Form</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p>Please enter your email and password below</p>
+        <form id="login-form">
+          <div class="mb-3">
+            <input type="email" class="form-control" id="input-email" placeholder="Email address">
+          </div>
+          <div class="mb-3">
+            <input type="password" class="form-control" id="input-password" placeholder="Password">
+          </div>
+          <div class="d-flex justify-content-end gap-2">
+            <button type="button" id="password-reset" class="btn btn-outline-danger btn">Reset Password</button>
+            <button type="submit" class="btn btn-outline-primary">Submit</button>
+          </div>
+          <div class="mb-3">
+          </div>
+          <div id="login-error-alert" class="alert alert-danger" role="alert" style="display: none;">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LOGOUT MODAL -->
+<div class="modal fade" id="logout-modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Logout</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you confirm to log out the system?</p>
+      </div>
+      <div class="modal-footer">
+        <button id="logout" type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Logout</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- PAGE CONTENT -->
+
+<!-- Content if user is logged out -->
+<div id="signedOutMessage" class="text-center" style="display: none;">
+  <h1>Welcome to the Health Surveillance System</h1>
+  <!--<p><em>This is the n IoT-based system</em></p>-->
+  <p style="text-align: center; font-size:20px;"><strong>Instructions:</strong></p>
+  <p style="margin-right: 3px"><b>Step 1:</b> Attach the ECG electrodes to your body and ensure proper placement of the blood oxygen level sensor.</p>
+  <p style="margin-right: 100px"><b>Step 2:</b> Power on the smartwatch and wait for a few seconds until the monitoring service is ready. </p>
+  <p style="margin-right: 65px"><b>Step 3:</b> Login to the system using your user credentials to access the dashboard and hardware control. </p>
+</div>
+
+<!-- Content if user is logged in -->
+<div class="container mt-4 mb-4" id="dashboardSignedIn" style="display: none;">
+  <!--Container for charts-->
+  <div class="row mb-3" >
+    <div class="col-sm mb-3 text-center" >
+      <div class="card">
+        <h5 class="card-header" style="background-color: #ce93d8">Electrocardiogram (ECG)</h5>
+        <div class="card-body">
+          <div id="chart-ecg" class="chart-container"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm mb-3 text-center">
+      <div class="card">
+        <h5 class="card-header" style="background-color: #ffcdd2">Photoplethysmogram (PPG)</h5>
+        <div class="card-body">
+          <div id="chart-ppg" class="chart-container"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Container for charts-->
+  <div class="row mb-3"  id="charts-container">
+    <!-- Temperature Chart-->
+    <div class="col-sm mb-3 text-center">
+      <div class="card">
+        <h5 class="card-header" style="background-color: #63c5da">QRS Interval</h5>
+        <div class="card-body">
+          <div id="chart-qrs" class="chart-container"></div>
+        </div>
+      </div>
+    </div>
+    <!-- QRS Chart-->
+    <div class="col-sm mb-3 text-center">
+      <div class="card">
+        <h5 class="card-header" style="background-color: #a5d6a7">HRV - RMSSD Chart</h5>
+        <div class="card-body">
+          <div id="chart-rmssd" class="chart-container"></div>
+        </div>
+      </div>
+    </div>
+    <!-- SDNN Chart-->
+    <div class="col-sm mb-3 text-center">
+      <div class="card">
+        <h5 class="card-header" style="background-color: #f5deb3">HRV - SDNN Chart</h5>
+        <div class="card-body">
+          <div id="chart-sdnn" class="chart-container"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Real-time table for results-->
+  <div class="row mb-3">
+    <div class="col-sm-8 mb-3 text-center">
+      <table class="table table-bordered rounded-3 overflow-hidden">
+        <thead>
+        <tr class="table-success">
+          <th scope="col">Vital Signs / Cardiac Measurements (Unit)</th>
+          <th scope="col">Result</th>
+          <th scope="col">Status</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Heart Rate (bpm) </td>
+            <td id="table-bpmValue"></td>
+            <td id="table-bpmStatus"></td>
+          </tr>
+          <tr>
+            <td>Blood Oxygen Level (SpO2) </td>
+            <td id="table-spo2Value"></td>
+            <td id="table-spo2Status"></td>
+          </tr>
+          <tr>
+            <td>Heart Rate Variability - RMSSD (ms) </td>
+            <td id="table-rmssdValue"></td>
+            <td id="table-rmssdStatus"></td>
+          </tr>
+          <tr>
+            <td>Heart Rate Variability - SDNN (ms) </td>
+            <td id="table-sdnnValue"></td>
+            <td id="table-sdnnStatus"></td>
+          </tr>
+          <tr>
+            <td>Electrocardiogram - RR Interval (ms) </td>
+            <td id="table-rrValue"></td>
+            <td id="table-rrStatus"></td>
+          </tr>
+          <tr>
+            <td>Electrocardiogram - QRS Interval (ms)</td>
+            <td id="table-qrsValue"></td>
+            <td id="table-qrsStatus"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-sm-4 mb-3 text-center">
+      <div class="card">
+        <h5 class="card-header">Settings</h5>
+        <div class="card-body">
+          <div class="form-check form-switch">
+            <div class="d-flex flex-row align-items-center justify-content-between">
+              <label class="form-check-label" style="width: 180px; font-size:16px;">Monitoring : <span id="monitor-state"></span></label>
+              <div class="d-flex align-items-center">
+                <div class="d-flex" style="height: 30px;">
+                <div class="vr"></div>
+              </div>
+                <input class="form-check-input" type="checkbox" role="switch" id="monitor-switch">
+                <label for="monitor-switch" class="mr-2"></label>
+              </div>
+            </div>
+          </div>
+          <hr style="height: 1px">
+          <div class="form-check form-switch">
+            <div class="d-flex flex-row align-items-center justify-content-between">
+              <label class="form-check-label" style="width: 180px; font-size:16px;">Alarm : <span id="alarm-state"></span></label>
+              <div class="d-flex align-items-center">
+                <div class="d-flex" style="height: 30px;">
+                  <div class="vr"></div>
+                </div>
+                <input class="form-check-input" type="checkbox" role="switch" id="alarm-switch">
+                <label for="alarm-switch" class="mr-2"></label>
+              </div>
+            </div>
+          </div>
+          <hr style="height: 1px">
+          <div class="d-flex flex-row align-items-center justify-content-between">
+            <label class="form-check-label" style="width: 180px; font-size: 16px; margin-bottom: 15px /* display: flex; vertical-align: center; margin-bottom: 0px; margin-left: 60px*/" >Update Duration: </label>
+            <select id="select" class="form-select form-select-sm mb-3" style="width:100px; margin-right: 20px" aria-label=".form-select-lg example">
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <label style="margin-bottom: 20px">Seconds</label>
+            <hr>
+          </div>
+          <hr style="height: 0; margin-bottom: -10px">
+          <button id="btn-view-data" class="btn btn-primary btn-sm">View table data</button>
+          <button id="btn-hide-data" class="btn btn-success btn-sm" style="display: none;" >Hide table data</button>
+          <button id="dtn-delete-table" class="btn btn-danger btn-sm">Reset table</button>
+          <button id="dtn-delete-data" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete-data-modal">Reset all data</button>
+        </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Container for table with vital signs readings-->
+    <div class="row mb-3" id="table-detail">
+      <div class="col-mb-3 text-center">
+        <div class="card">
+          <table class="table table-striped table-bordered rounded-3 overflow-hidden">
+            <thead>
+            <tr id="theader" class="bg-light">
+              <th scope="col">Timestamp</th>
+              <th scope="col">Heart Rate</th>
+              <th scope="col">HRV-RMSSD</th>
+              <th scope="col">HRV-SDNN</th>
+              <th scope="col">RR Interval</th>
+              <th scope="col">QRS Interval</th>
+              <th scope="col">SpO2</th>
+            </tr>
+            </thead>
+            <tbody id="table-body">
+            </tbody>
+          </table>
+          <nav>
+            <button id="btn-load-more" class="btn btn-outline-primary" style="margin-bottom: 15px">View more</button>
+          </nav>
+        </div>
+      </div>
+    </div>
+  <!-- Delete Data Modal -->
+  <div class="modal fade" id="delete-data-modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Reset Current Data</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex align-items-center justify-content-center">
+          <p class="text-center" style="font-size: 18px"> Are you confirm to clear all measuring data?</p>
+        </div>
+        <div class="modal-footer">
+          <button id="btn-delete-data-confirm" type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Delete</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+<div class="container footer navbar-fixed-bottom bg-light">
+  <footer class=" text-center text-lg-start">
+    <div class="text-center p-3">
+      Developed by: Chun Fung, Lee (22070054) for UWE Individual Project Presentation
+    </div>
+  </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+<script src="scripts/auth.js"></script>
+<script src="scripts/index.js"></script>
+<script src="scripts/charts.js"></script>
+</body>
+</html>
