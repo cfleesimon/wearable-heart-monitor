@@ -17,7 +17,7 @@ The design and implementation of this module are primarily integrated with the E
 </p>
 
 ## Use Case Diagram
-The following diagram provide comprehensive guidelines on system implementation, configuration, and validation to fulfil the project scopes and requirements. 
+The following diagram provide a high-level view of the system’s functionality and interactions.
 
 <p align="center">
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/926c601d-b558-4731-8c51-6ce6a703aaf6">
