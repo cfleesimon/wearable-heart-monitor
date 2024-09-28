@@ -39,7 +39,7 @@ The schematic architecture and interconnection of hardware components is require
 ## Web Application Design
 
 The web portal user interface (UI) design for a health surveillance system is a critical component that directly impacts user experience, engagement, and the effectiveness of the health monitoring process. Additionally, the web portal serves as a conduit for interaction between patients, healthcare providers, and the system itself. The design should be approached with thorough consideration of accessibility and functionality.
-- The wireframe shows the structured layout that visualises the health metrics and status with responsive elements.
+- The wireframe displays a layout for health metrics and status visualizations, incorporating responsive elements.
 <p align="center">
 <img width="379" alt="image" src="https://github.com/user-attachments/assets/5d26c7be-5f2f-40c4-ba3f-dd815636b1c1">
 </p>
