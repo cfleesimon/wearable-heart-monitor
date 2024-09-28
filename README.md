@@ -47,7 +47,7 @@ The web portal user interface (UI) design for a health surveillance system is a 
 Back-end System Implementation
 Firebase is a versatile backend-as-a-service (BaaS) platform developed by Google, which has been chosen as the backend service for the health surveillance system. It offers three main components for implementing the backend services of the health surveillance system: Firebase Authentication, Realtime Database (RTDB), and Hosting. 
 To ensure full functionality, back-end related parameters should be carefully verified and aligned across the system. This unified configuration enables a coherent ecosystem where the wearable sensor module can synchronise data to the RTDB, and the web portal can retrieve and display the health data in real time. 
-- A JavaScript Object Notation (JSON) structure of hierarchical data used when the health parameters are uploaded from the wearable sensor module to RTDB as below. 
+- A JavaScript Object Notation (JSON) structure of hierarchical data used when the health parameters are uploaded from the wearable module to RTDB as below. 
 <p align="center">
 <img width="350" alt="image" src="https://github.com/user-attachments/assets/ec261998-9e07-439c-a3b6-e683ed70f071">
 </p>
@@ -60,12 +60,12 @@ To ensure full functionality, back-end related parameters should be carefully ve
 <img width="160" alt="image" src="https://github.com/user-attachments/assets/05f37ecf-ca78-4e7d-8f2b-621e6503237d">
 </p>
 
-- The wearable sensor module is fitted with the patient’s wrist to ensure proper placement of the blood oxygen level sensors.
+- The wearable module is fitted with the patient’s wrist to ensure proper placement of the blood oxygen level sensors.
 <p align="center">
 <img width="313" alt="image" src="https://github.com/user-attachments/assets/4fad06f7-905f-4d27-89a4-fde558cea411">
 </p>
 
-- Power on the wearable module with a 5V usb cable and then wait for a few seconds until the monitoring service is ready.
+- Connect the wearable module with a 5V power cable until the hardware status and cloud services are ready.
 <p align="center">
 <img width="313" alt="image" src="https://github.com/user-attachments/assets/908147ca-1f71-4e0c-9c2e-bdbceb9e02bb">
 </p>
