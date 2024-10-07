@@ -59,9 +59,9 @@ The web portal user interface (UI) design for a health surveillance system is a 
 ## Back-end System Implementation
 Firebase is a versatile backend-as-a-service (BaaS) platform developed by Google, which has been chosen as the backend service for the health surveillance system. It offers three main components for implementing the backend services of the health surveillance system: Firebase Authentication, Realtime Database (RTDB), and Hosting. 
 To ensure full functionality, back-end related parameters should be carefully verified and aligned across the system. This unified configuration enables a coherent ecosystem where the wearable sensor module can synchronise data to the RTDB, and the web portal can retrieve and display the health data in real time. 
-- A JavaScript Object Notation (JSON) structure of hierarchical data used when the health parameters are uploaded from the wearable module to RTDB as below. 
+- Firebase Realtime Database Dashboard view with the JavaScript Object Notation (JSON) structure of hierarchical data used when the health parameters are uploaded from the wearable module to RTDB as below. 
 <p align="center">
-<img width="350" alt="image" src="https://github.com/user-attachments/assets/ec261998-9e07-439c-a3b6-e683ed70f071">
+<img width="800" alt="image" src="https://github.com/user-attachments/assets/6eb9d2ff-b401-4e6b-9275-dbdd458e7051">
 </p>
 
 ## Application Instructions
