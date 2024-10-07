@@ -2,7 +2,7 @@
 
 This document provides a comprehensive summary of the final year individual project undertaken by Lee Chun Fung Simon for the UWE Bristol BEng Program, highlighting the system architecture, hardware and software design.
 
-This project aims to design and implement a compact, smart wearable device capable of acquiring Electrocardiogram (ECG) and photoplethysmogram (PPG) signals with accuracy and reliability. A significant object is to enhance the early detection and prevention of cardiovascular and respiratory conditions. 
+This project aims to design and implement a compact, smart wearable device capable of acquiring Electrocardiogram (ECG) and photoplethysmogram (PPG) signals with accuracy and reliability. A significant object is to enhance the early detection of cardiovascular and respiratory conditions based on patient's vital signals and Heart Rate Variability (HRV) . 
 
 Based on the requirements, five critical parameters are included for measuring cardiovascular health metrics based on ECG data analysis. These parameters provide a comprehensive overview of heart function and monitoring cardiac conditions. These parameters include QRS Interval, RR Interval, Heart Rate, SDNN and RMSSD. The definition and analysis of the parameters are based on the following structure of an ECG signal:
 
