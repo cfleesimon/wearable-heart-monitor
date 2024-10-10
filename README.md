@@ -1,6 +1,6 @@
 # IoT-based Wearable Cardiovascular Health Surveillance System
 
-This document provides a comprehensive summary of the final year individual project undertaken by Lee Chun Fung Simon for the UWE Bristol BEng Program, highlighting the system architecture, hardware and software design.
+This document provides a comprehensive summary of the final year individual project completed by Lee Chun Fung Simon for the UWE Bristol BEng Program, highlighting the system architecture with hardware and software design.
 
 This project aims to design and implement a compact, smart wearable device capable of acquiring Electrocardiogram (ECG) and photoplethysmogram (PPG) signals with accuracy and reliability. A significant object is to enhance the early detection of cardiovascular and respiratory conditions based on patient's vital signals and Heart Rate Variability (HRV) . 
 
